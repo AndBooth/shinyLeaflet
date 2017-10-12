@@ -1,4 +1,5 @@
 
+
 library(dplyr)
 
 accidents <- read.csv("./Data/accidents.csv", header = T)
