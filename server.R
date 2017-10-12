@@ -8,6 +8,7 @@ library(ggplot2)
 shinyServer(function(input, output) {
 
   
+  # Reactive to filter the dataframe based on the selected accident severity
   accidentSeverity <- reactive({
     
     if (input$severity != "All")
@@ -17,7 +18,7 @@ shinyServer(function(input, output) {
     
   })
   
-  
+  # Render the leaflet map
   output$map <- renderLeaflet({
     
     accidents_plot <- accidentSeverity()
@@ -29,7 +30,7 @@ shinyServer(function(input, output) {
     
   })
 
-  
+  # Reactive to filter the dataframe based on the current map bounds
   accidentsInView <- reactive({
     bounds <- input$map_bounds
     latRng <- range(bounds$north, bounds$south)
@@ -41,7 +42,7 @@ shinyServer(function(input, output) {
                                 Longitude >= lngRng[1] & Longitude <= lngRng[2])
   })
   
-  
+  # Output histogram of the accident counts per day of the week
   output$hist <- renderPlot({
     
     current_data <- accidentsInView()
